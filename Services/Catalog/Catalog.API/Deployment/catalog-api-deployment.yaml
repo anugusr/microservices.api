@@ -1,0 +1,67 @@
+﻿apiVersion: apps/v1
+kind: StatefulSet #Deployment #StatefulSet
+metadata:
+  name: catalog-api
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog-api
+  template:
+    metadata:
+      labels:
+        app: catalog-api
+    spec:
+      containers:
+      - name: catalog-api
+        image: srinivasanugu/catalog-api-image:latest
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: catalog-api-config
+              key: ASPNETCORE_ENVIRONMENT
+        - name: DatabaseSettings__ConnectionString
+          valueFrom:
+            secretKeyRef:
+              name: catalog-api-secret
+              key: DatabaseSettings__ConnectionString
+        - name: DatabaseSettings__DatabaseName
+          valueFrom:
+            configMapKeyRef:
+              name: catalog-api-config
+              key: DatabaseSettings__DatabaseName
+        - name: DatabaseSettings__CollectionName
+          valueFrom:
+            configMapKeyRef:
+              name: catalog-api-config
+              key: DatabaseSettings__CollectionName
+        - name: DatabaseSettings__BrandsCollection
+          valueFrom:
+            configMapKeyRef:
+              name: catalog-api-config
+              key: DatabaseSettings__BrandsCollection
+        - name: DatabaseSettings__TypesCollection
+          valueFrom:
+            configMapKeyRef:
+              name: catalog-api-config
+              key: DatabaseSettings__TypesCollection
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-api-service
+  namespace: default
+spec:
+  selector:
+    app: catalog-api
+  ports:
+  - protocol: TCP
+    port: 8001 # port the service listens on
+    targetPort: 8080 # port the app runs on
+    nodePort: 30001 # using Nodes as proxy with external LB
+  type: NodePort
+#kubectl apply catalog-api-deployment.yaml

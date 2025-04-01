@@ -1,0 +1,45 @@
+﻿#kubectl create configmap ocelot-config --from-file=ocelot.Development.json
+apiVersion: apps/v1
+kind: StatefulSet #Deployment #StatefulSet
+metadata:
+  name: ocelot-gateway
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ocelot-gateway
+  template:
+    metadata:
+      labels:
+        app: ocelot-gateway
+    spec:
+      containers:
+      - name: ocelot
+        image: srinivasanugu/ocelot-api-gateway-image
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        volumeMounts:
+        - name: ocelot-config-volume
+          mountPath: /app/ocelot.Development.json
+          subPath: ocelot.Development.json
+      volumes:
+      - name: ocelot-config-volume
+        configMap:
+          name: ocelot-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ocelot-gateway
+spec:
+  type: NodePort
+  ports:
+    - port: 8200
+      targetPort: 8080
+      nodePort: 32000
+  selector:
+    app: ocelot-gateway

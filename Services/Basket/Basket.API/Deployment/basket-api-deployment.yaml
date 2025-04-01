@@ -1,0 +1,66 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: basket-api-config
+  namespace: default
+data:
+  ASPNETCORE_ENVIRONMENT: "Development"
+---
+apiVersion: apps/v1
+kind: StatefulSet #Deployment #StatefulSet
+metadata:
+  name: basket-api
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: basket-api
+  template:
+    metadata:
+      labels:
+        app: basket-api
+    spec:
+      containers:
+      - name: basket-api
+        image: srinivasanugu/basket-api-image:latest
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: basket-api-config
+              key: ASPNETCORE_ENVIRONMENT
+        - name: EventBusSettings__HostAddress
+          valueFrom:
+            secretKeyRef:
+              name: basket-api-secret
+              key: EventBusSettings__HostAddress
+        - name: CacheSettings__ConnectionString
+          valueFrom:
+            secretKeyRef:
+              name: basket-api-secret
+              key: CacheSettings__ConnectionString
+        - name: GrpcSettings__DiscountUrl
+          valueFrom:
+            secretKeyRef:
+              name: basket-api-secret
+              key: GrpcSettings__DiscountUrl
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: basket-api-service
+  namespace: default
+spec:
+  selector:
+    app: basket-api
+  ports:
+  - protocol: TCP
+    port: 8002
+    targetPort: 8080
+    nodePort: 30002 # using Nodes as proxy with external LB
+  type: NodePort
+#Kubectl apply -f basket-api-deployment.yaml
+#kubectl port-forward basket-api-deployment-59c554f4cb-hv4zb 8001:8080

@@ -1,0 +1,23 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: catalog-api-config
+  namespace: default
+data:
+  ASPNETCORE_ENVIRONMENT: "Development"
+  DatabaseSettings__DatabaseName: "CatalogDb"
+  DatabaseSettings__CollectionName: "Products"
+  DatabaseSettings__BrandsCollection: "Brands"
+  DatabaseSettings__TypesCollection: "Types"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: catalog-api-secret
+  namespace: default
+type: Opaque
+data:
+  DatabaseSettings__ConnectionString: bW9uZ29kYjovL2FkbWluOnBhc3N3b3JkQGxvY2FsaG9zdDoyNzAxNy9DYXRhbG9nRGI/YXV0aFNvdXJjZT1hZG1pbg==
+#echo "devopscube" | base64
+#echo "mongodb://admin:password@localhost:27017/CatalogDb?authSource=admin" | base64
+# powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes('mongodb://admin:password@localhost:27017/CatalogDb?authSource=admin'))"

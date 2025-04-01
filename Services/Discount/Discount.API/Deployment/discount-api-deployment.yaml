@@ -1,0 +1,55 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: discount-api-config
+  namespace: default
+data:
+  ASPNETCORE_ENVIRONMENT: "Development"
+---
+apiVersion: apps/v1
+kind: StatefulSet #Deployment #StatefulSet
+metadata:
+  name: discount-api-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discount-api
+  template:
+    metadata:
+      labels:
+        app: discount-api
+    spec:
+      containers:
+      - name: discount-api
+        image: srinivasanugu/discount-api-image:latest
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: discount-api-config
+              key: ASPNETCORE_ENVIRONMENT
+        - name: DatabaseSettings__ConnectionString
+          valueFrom:
+            secretKeyRef:
+              name: discount-api-secret
+              key: DatabaseSettings__ConnectionString
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discount-api-service
+  namespace: default
+spec:
+  selector:
+    app: discount-api
+  ports:
+  - protocol: TCP
+    port: 8003
+    targetPort: 8080
+    nodePort: 30003
+  type: NodePort
+  #kubectl apply -f discount-api-deployment.yaml

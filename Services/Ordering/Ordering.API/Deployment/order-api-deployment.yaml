@@ -1,0 +1,60 @@
+﻿#SQL Server
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-api-config
+  namespace: default
+data:
+  ASPNETCORE_ENVIRONMENT: "Development"
+---
+apiVersion: apps/v1
+kind: StatefulSet #Deployment #StatefulSet
+metadata:
+  name: order-api-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-api
+  template:
+    metadata:
+      labels:
+        app: order-api
+    spec:
+      containers:
+      - name: order-api
+        image: srinivasanugu/order-api-image:latest
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: order-api-config
+              key: ASPNETCORE_ENVIRONMENT
+        - name: ConnectionStrings__OrderingConnectionString
+          valueFrom:
+            secretKeyRef:
+              name: order-api-secret
+              key: ConnectionStrings__OrderingConnectionString
+        - name: EventBusSettings__HostAddress
+          valueFrom:
+            secretKeyRef:
+              name: order-api-secret
+              key: EventBusSettings__HostAddress
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-api-service
+  namespace: default
+spec:
+  selector:
+    app: order-api
+  ports:
+  - protocol: TCP
+    port: 8004
+    targetPort: 80
+    nodePort: 30004 # using Nodes as proxy with external LB
+  type: NodePort
