@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongodb-secret
+  namespace: default
+type: Opaque
+data:
+  mongo-user: YWRtaW4=  #[base64 encoded "admin"]
+  mongo-password: cGFzc3dvcmQ=  #[base64 encoded "password"]
+#powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes('admin'))"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongodb-pv
+  namespace: default
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes: ["ReadWriteOnce"]
+  hostPath:
+    path: /data/mongodb
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongodb-pv-claim
+  namespace: default
+spec:
+  storageClassName: ""
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: StatefulSet #Deployment
+metadata:
+  name: mongodb-deployment
+  namespace: default
+  labels:
+    app: mongodb-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb-app
+  template:
+    metadata:
+      labels:
+        app: mongodb-app
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:latest
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongo-user
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongo-password
+        volumeMounts:
+        - name: mongo-storage
+          mountPath: /data/db
+      volumes:
+      - name: mongo-storage
+        persistentVolumeClaim:
+          claimName: mongodb-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+  namespace: default
+spec:
+  selector:
+    app: mongodb-app
+  ports:
+  - protocol: TCP
+    port: 27017
+    targetPort: 27017
+  type: NodePort
+
+#kubectl apply -f k8s-mongodb-deployment.yaml
+#kubectl delete -f k8s-mongodb-deployment.yaml
+#To connect from local machine, need to port-forward.
+#kubectl port-forward <your-POD-name> <local-port>:<service-port> -n <your-namespace>
+#kubectl port-forward svc/mongodb-service 27017:27017
+#mongodb://admin:password@<POD-IP-ADDRESS>:27017/CatalogDB?authSource=admin

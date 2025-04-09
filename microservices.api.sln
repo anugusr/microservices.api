@@ -55,12 +55,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ocelot.ApiGateway", "ApiGateways\Ocelot.ApiGateway\Ocelot.ApiGateway.csproj", "{52884349-B067-4DFC-83BD-BE522D2AE945}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionItems", "_SolutionItems", "{B48AD62F-1956-4E12-AB02-CBBAC8307AEB}"
-	ProjectSection(SolutionItems) = preProject
-		_SolutionItems\readme-deployments.md = _SolutionItems\readme-deployments.md
-		_SolutionItems\readme.md = _SolutionItems\readme.md
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -1,0 +1,127 @@
+apiVersion: v1 #specifies the Kubernetes API version used for this ConfigMap
+kind: ConfigMap #defines the Kubernetes resource type
+metadata:
+  name: postgres-config #the name field specifies the name of the ConfigMap
+  namespace: default
+  labels:
+    app: postgres-app
+data: #contains the configuration data as key-value pairs
+  postgres-db: CatalogDb
+  #POSTGRES_USER: admin
+  #POSTGRES_PASSWORD: password
+  #kubectl get configmap
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  namespace: default
+  labels:
+    app: postgres-app
+type: Opaque
+data:
+  postgres-user: cG9zdGdyZXM=  #[base64 encoded "postgres"]
+  postgres-password: cG9zdGdyZXM=  #[base64 encoded "postgres"]
+#powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes('postgres'))"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-volume
+  namespace: default
+  labels:
+    type: local
+    app: postgres-app
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /data/postgresql
+#kubectl get pv
+#A PersistentVolume provides storage resources in the cluster, while a PersistentVolumeClaim allows pods to request specific storage resources.
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-volume-claim
+  namespace: default
+  labels:
+    app: postgres-app
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+#kubectl get pvc
+---
+apiVersion: apps/v1
+kind: StatefulSet #Deployment #StatefulSet
+metadata:
+  name: postgress-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-app
+  template:
+    metadata:
+      labels:
+        app: postgres-app
+    spec:
+      containers:
+        - name: postgres
+          image: 'postgres:14'
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          env:
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: postgres-config
+                key: postgres-db
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: postgres-user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: postgres-password
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresdata
+      volumes:
+        - name: postgresdata
+          persistentVolumeClaim:
+            claimName: postgres-volume-claim
+#kubectl get deployments
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: default
+  labels:
+    app: postgres-app
+spec:
+  type: NodePort
+  ports:
+    - port: 5432
+  selector:
+    app: postgres-app
+
+#kubectl get svc  
+
+#kubectl apply -f 03-k8s-postgressql-deployment.yaml
+#kubectl delete -f 03-k8s-postgressql-deployment.yaml
+#kubectl port-forward postgressql-deployment-0 5432:5432
+#create database discountdb
