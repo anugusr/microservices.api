@@ -57,8 +57,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ocelot.ApiGateway", "ApiGat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionItems", "_SolutionItems", "{B48AD62F-1956-4E12-AB02-CBBAC8307AEB}"
 	ProjectSection(SolutionItems) = preProject
-		old_readme-deployments.md = old_readme-deployments.md
-		old_readme.md = old_readme.md
 		_SolutionItems\readme-deployments.md = _SolutionItems\readme-deployments.md
 		_SolutionItems\readme.md = _SolutionItems\readme.md
 	EndProjectSection
