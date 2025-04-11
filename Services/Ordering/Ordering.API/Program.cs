@@ -2,9 +2,7 @@ using Asp.Versioning;
 using EventBus.Messages.Common;
 using MassTransit;
 using Ordering.API.EventBusConsumer;
-using Ordering.API.Extensions;
 using Ordering.Application.Extensions;
-using Ordering.Infrastructure.Data;
 using Ordering.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -66,12 +64,6 @@ builder.Services.AddMassTransit(config =>
 
 var app = builder.Build();
 
-//Apply db migration
-app.MigrateDatabase<OrderContext>((context, services) =>
-{
-    var logger = services.GetService<ILogger<OrderContextSeed>>();
-    OrderContextSeed.SeedAsync(context, logger).Wait();
-});
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

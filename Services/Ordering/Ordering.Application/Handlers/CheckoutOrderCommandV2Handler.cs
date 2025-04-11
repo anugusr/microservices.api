@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Ordering.Application.Commands;
 using Ordering.Core.Entities;
-using Ordering.Core.Repositories;
+using Ordering.Core.Interfaces;
 
 namespace Ordering.Application.Handlers
 {

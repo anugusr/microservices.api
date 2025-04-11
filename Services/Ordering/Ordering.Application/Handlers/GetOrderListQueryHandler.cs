@@ -2,7 +2,7 @@
 using MediatR;
 using Ordering.Application.Queries;
 using Ordering.Application.Responses;
-using Ordering.Core.Repositories;
+using Ordering.Core.Interfaces;
 
 namespace Ordering.Application.Handlers
 {

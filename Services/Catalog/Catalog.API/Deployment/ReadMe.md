@@ -1,8 +1,16 @@
 ﻿Navigate to API Gateway Services file Path:
+https://hub.docker.com/repositories/srinivasanugu
 ```
+docker login
+Navigate to applicatio folder: C:\Development\github\microservices.api\
 $docker build -t srinivasanugu/catalog-api-image -f ./Services/Catalog/Catalog.API/Dockerfile .
 $docker push srinivasanugu/catalog-api-image:latest
-#kubectl port-forward catalog-api-deployment-78d6548b74-zk7tq 9200:8080
+
+--Deploy
+$kubectl apply -f ./Services/Catalog/Catalog.API/Deployment/catalog-api-screts.yaml
+$kubectl apply -f ./Services/Catalog/Catalog.API/Deployment/catalog-api-deployment.yaml
+#kubectl port-forward catalog-api-0 9200:8080
+http://localhost:9200/swagger/index.html
 ```
 
 ```

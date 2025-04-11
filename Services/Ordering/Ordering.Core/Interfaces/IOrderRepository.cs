@@ -1,6 +1,6 @@
 ﻿using Ordering.Core.Entities;
 
-namespace Ordering.Core.Repositories
+namespace Ordering.Core.Interfaces
 {
     public interface IOrderRepository : IAsyncRepository<Order>
     {

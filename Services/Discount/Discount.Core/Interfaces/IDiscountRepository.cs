@@ -1,6 +1,6 @@
 ﻿using Discount.Core.Entities;
 
-namespace Discount.Core.Repositories
+namespace Discount.Core.Interfaces
 {
     public interface IDiscountRepository
     {

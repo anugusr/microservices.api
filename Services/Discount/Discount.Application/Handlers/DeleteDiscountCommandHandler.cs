@@ -1,5 +1,5 @@
 ﻿using Discount.Application.Commands;
-using Discount.Core.Repositories;
+using Discount.Core.Interfaces;
 using MediatR;
 
 namespace Discount.Application.Handlers

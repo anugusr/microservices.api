@@ -1,5 +1,5 @@
 ﻿using Basket.Application.Commands;
-using Basket.Core.Repositories;
+using Basket.Core.Interfaces;
 using MediatR;
 
 namespace Basket.Application.Handlers

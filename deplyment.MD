@@ -37,12 +37,15 @@ Example: kubectl port-forward mongodb-deployment-0 27017:27017
 //Navigate to Project path C:\>MicroservicesApp
 //to build for docker-hub  
 $docker build -t srinivasanugu/catalog-api-image -f ./Services/Catalog/Catalog.API/Dockerfile .
-to push image to docker-hub  
+to push image to docker-hub
+$docker login  
 $docker push srinivasanugu/catalog-api-image:latest
 $kubectl apply -f ./Services/Catalog/Catalog.API/Deployment/catalog-api-deployment.yaml
-#kubectl port-forward catalog-api-deployment-0 9010:8080
-//Note:update connection string settings with the Pod ip.
+$kubectl apply -f ./Services/Catalog/Catalog.API/Deployment/catalog-api-screts.yaml
+#kubectl port-forward catalog-api-0 9010:8080
+http://localhost:9200/swagger/index.html
 http://localhost:9010/health```
+//Note:update connection string settings with the Pod ip to access this api from other API in kuberneties.
 ```
 
 #### Install Basket API

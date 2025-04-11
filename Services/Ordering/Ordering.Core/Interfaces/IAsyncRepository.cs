@@ -1,7 +1,7 @@
 ﻿using Ordering.Core.Common;
 using System.Linq.Expressions;
 
-namespace Ordering.Core.Repositories
+namespace Ordering.Core.Interfaces
 {
     public interface IAsyncRepository<T> where T : EntityBase
     {

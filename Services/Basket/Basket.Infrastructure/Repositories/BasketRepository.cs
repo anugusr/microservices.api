@@ -1,5 +1,5 @@
 ﻿using Basket.Core.Entities;
-using Basket.Core.Repositories;
+using Basket.Core.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 

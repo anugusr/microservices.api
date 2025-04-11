@@ -1,5 +1,5 @@
 ﻿using Discount.Application.Queries;
-using Discount.Core.Repositories;
+using Discount.Core.Interfaces;
 using Discount.Grpc.Protos;
 using Grpc.Core;
 using MediatR;

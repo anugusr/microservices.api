@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Discount.Core.Entities;
-using Discount.Core.Repositories;
+using Discount.Core.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 

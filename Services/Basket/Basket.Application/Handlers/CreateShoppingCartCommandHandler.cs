@@ -1,10 +1,10 @@
 ﻿using Basket.Application.Commands;
 using Basket.Application.Mappers;
 using Basket.Application.Responses;
-using Basket.Core.Repositories;
 using Basket.Core.Entities;
 using MediatR;
 using Basket.Application.GrpcService;
+using Basket.Core.Interfaces;
 
 namespace Basket.Application.Handlers
 {

@@ -1,6 +1,6 @@
 using Discount.API.Services;
 using Discount.Application.Handlers;
-using Discount.Core.Repositories;
+using Discount.Core.Interfaces;
 using Discount.Infrastructure.Extensions;
 using Discount.Infrastructure.Repositories;
 using System.Reflection;

@@ -1,7 +1,7 @@
 ﻿using Basket.Application.Mappers;
 using Basket.Application.Queries;
 using Basket.Application.Responses;
-using Basket.Core.Repositories;
+using Basket.Core.Interfaces;
 using MediatR;
 
 namespace Basket.Application.Handlers
