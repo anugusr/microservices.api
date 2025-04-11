@@ -60,6 +60,8 @@ spec:
     port: 15672
     targetPort: 15672
   type: NodePort #LoadBalancer
-#kubectl apply -f 06-k8s-rabbitmq-deployment.yaml
-#kubectl delete -f 06-k8s-rabbitmq-deployment.yaml
-#kubectl port-forward rabbitmq-deployment-8476c76556-t29h6 15672:15672
+  
+#kubectl apply -f k8s-rabbitmq-deployment.yaml
+#kubectl delete -f k8s-rabbitmq-deployment.yaml
+#kubectl port-forward rabbitmq-deployment-0 15672:15672
+#browser: http://localhost:15672/

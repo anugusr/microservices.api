@@ -48,7 +48,14 @@ spec:
   selector:
     app: kib-manual
   type: NodePort
-#Run on Elastisearh pod 
-#elasticsearch-create-enrollment-token -s kibana --url "https://localhost:9200"
+
+#Prerequisite: Execute Elasticsearch Deplotment 
+#kubectl apply -f k8s-kibana-deployment.yaml
+#kubectl port-forward kibana-logging-0 5601:5601
+#Open a terminal on the POD where Elasticsearch is running.
+#bin/elasticsearch-create-enrollment-token -s kibana --url "https://localhost:9200"
 #navihate to kibana/bin and run 
 #kibana-verification-code.bat or kibana-verification
+#bin/elasticsearch-create-enrollment-token -s kibana
+
+#kubectl exec -it kibana-logging-0 -- bash

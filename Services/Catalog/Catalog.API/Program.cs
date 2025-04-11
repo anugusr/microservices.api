@@ -1,7 +1,8 @@
 using Asp.Versioning;
 using Catalog.Application.Handlers;
-using Catalog.Core.Repositories;
+using Catalog.Core.Interfaces;
 using Catalog.Infrastructure.Data;
+using Catalog.Infrastructure.Interfaces;
 using Catalog.Infrastructure.Repositories;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;

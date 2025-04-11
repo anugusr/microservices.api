@@ -93,4 +93,5 @@ spec:
 #To connect from local machine, need to port-forward.
 #kubectl port-forward <your-POD-name> <local-port>:<service-port> -n <your-namespace>
 #kubectl port-forward svc/mongodb-service 27017:27017
-#mongodb://admin:password@<POD-IP-ADDRESS>:27017/CatalogDB?authSource=admin
+#mongodb://admin:password@127.0.0.1:27017/admin
+

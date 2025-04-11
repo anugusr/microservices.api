@@ -73,5 +73,14 @@ spec:
     port: 9300
     targetPort: 9300
   type: ClusterIP
-#kubectl port-forward elasticsearch 9200:9200
+
+#kubectl apply -f k8s-elasticsearch-deployment.yaml
+#kubectl port-forward elasticsearch-0 9200:9200
 #https://127.0.0.1:9200 (Secured)
+#kubectl exec -it elasticsearch-0 -- bash
+#bin/elasticsearch-create-enrollment-token -s kibana --url "https://localhost:9200"
+
+#update /usr/share/elasticsearch/config/elasticsearch.yml file, cat /usr/share/elasticsearch/config/elasticsearch.yml
+#kubectl cp elasticsearch.yml elasticsearch-0:/usr/share/elasticsearch/config/elasticsearch.yml
+#ERROR: [xpack.security.enrollment.enabled] must be set to `true` to create an enrollment token, with exit code 78
+ 

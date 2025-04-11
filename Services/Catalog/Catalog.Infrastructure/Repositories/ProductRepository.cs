@@ -1,8 +1,8 @@
 ﻿
 using Catalog.Core.Entities;
-using Catalog.Core.Repositories;
+using Catalog.Core.Interfaces;
 using Catalog.Core.Specs;
-using Catalog.Infrastructure.Data;
+using Catalog.Infrastructure.Interfaces;
 using MongoDB.Driver;
 
 namespace Catalog.Infrastructure.Repositories

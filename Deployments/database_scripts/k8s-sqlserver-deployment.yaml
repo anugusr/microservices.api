@@ -5,8 +5,8 @@ metadata:
   namespace: default
 type: Opaque
 data:
-  MSSQL_SA_PASSWORD: YWRtaW5AYWRtaW4xMjM0NQ==
-#powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes('$admin@admin12345'))"
+  MSSQL_SA_PASSWORD: TmV3UGFzc3cwckRQQHNzdzByZDIwMjUh
+  #powershell "[convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes('NewPassw0rDP@ssw0rd2025!'))"
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -15,7 +15,7 @@ metadata:
   namespace: default
 spec:
   capacity:
-    storage: 2Gi
+    storage: 5Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
@@ -33,7 +33,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: 5Gi
   storageClassName: manual
 ---
 apiVersion: apps/v1
@@ -80,7 +80,7 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 2Gi
+          storage: 5Gi
 ---
 apiVersion: v1
 kind: Service
@@ -94,5 +94,9 @@ spec:
     targetPort: 1433
   selector:
     app: sqlserver-app
+    
 #kubectl apply -f k8s-sqlserver-deployment.yaml
-#kubectl port-forward redis-deployment-0 6379:6379
+#kubectl delete -f k8s-sqlserver-deployment.yaml
+#kubectl port-forward sqlserver-deployment-0 1433:1433
+#Server=127.0.0.1,1433;User Id=sa;Password=NewPassw0rDP@ssw0rd2025!;Encrypt=True;TrustServerCertificate=True;
+#try delete and run minikube for any sa password connection issues.

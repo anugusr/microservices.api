@@ -64,5 +64,8 @@ spec:
     targetPort: 6379
   selector:
     app: redis-app
-#kubectl apply -f 05-k8s-redis-deployment.yaml
+    
+#kubectl apply -f k8s-redis-deployment.yaml
+#kubectl delete -f k8s-redis-deployment.yaml
 #kubectl port-forward redis-deployment-0 6379:6379
+#try empty user, empty password

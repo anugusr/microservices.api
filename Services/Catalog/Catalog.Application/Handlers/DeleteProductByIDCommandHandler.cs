@@ -1,5 +1,5 @@
 ﻿using Catalog.Application.Commands;
-using Catalog.Core.Repositories;
+using Catalog.Core.Interfaces;
 using MediatR;
 
 namespace Catalog.Application.Handlers

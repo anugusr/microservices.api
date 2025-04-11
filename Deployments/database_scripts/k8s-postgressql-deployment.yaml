@@ -119,9 +119,7 @@ spec:
   selector:
     app: postgres-app
 
-#kubectl get svc  
-
-#kubectl apply -f 03-k8s-postgressql-deployment.yaml
-#kubectl delete -f 03-k8s-postgressql-deployment.yaml
-#kubectl port-forward postgressql-deployment-0 5432:5432
-#create database discountdb
+#kubectl apply -f k8s-postgressql-deployment.yaml
+#kubectl delete -f k8s-postgressql-deployment.yaml
+#kubectl port-forward postgress-deployment-0 5432:5432
+#connection string: 127.0.0.1
